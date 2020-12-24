@@ -1,14 +1,9 @@
-# sudo docker-compose build
-# sudo docker-compose up
-
 version: "2"
 services:
-  apache_php:
+  php:
     build:
       dockerfile: Dockerfile
       context: .
-    image: ubuntu18_apache_php72:18.04
-    container_name: php
     ports:
       - "80:80"
     volumes:
@@ -23,10 +18,11 @@ services:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: "123456789"
-      MYSQL_DATABASE: visual_vert
+      MYSQL_DATABASE: desafio-credere
     volumes:
-      - visual_vert:/var/lib/mysql
+      - desafio-credere:/var/lib/mysql
+      - ./config:/backup/
     networks:
       - default
 volumes:
-  visual_vert:
+  desafio-credere:
