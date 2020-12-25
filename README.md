@@ -21,7 +21,7 @@ Esperamos três endpoints, um que envie a sonda para a posição inicial (0,0); 
 ## Instalação/Execução
 
 ### Configurando credenciais
-Primeiramente, é necessário configurar a conexão com o banco de dados MySQL local, para isso crie o arquivo ```config-dev.json```, adicionando credenciais válidas.
+Primeiramente, é necessário configurar a conexão com o banco de dados MySQL local, para isso crie o arquivo ```config/config-dev.json```, adicionando credenciais válidas.
 
 ```json
 {
@@ -29,24 +29,34 @@ Primeiramente, é necessário configurar a conexão com o banco de dados MySQL l
     "host": "localhost",
     "user": "usuario",
     "password": "senha",
-    "db": "nomeBanco",
+    "db": "nome_banco",
     "drive": "mysql"
   }
 }
 ```
 
-Posteriomente, é necessário a criação do banco de dados, cujo *script* com a tabela necessária se encontra na [raiz](scriptBanco.sql) desse repositório. 
-
 ### Sem Docker
 Para a execução do projeto sem Docker é necessário ter um servidor local na máquina com:
 - Apache
 - MySQL
+Para a configuração da base de dados é necessário rodar os seguintes comandos:
+```bash
+$ mysql -u root -p <nome_da_base> < /config/scriptBanco.sql
+```
 
 ### Com Docker 🐳
 Para a execução do projeto com Docker é necessário ter o mesmo instalado na máquina. Para inicia-lo:
 ```bash
+$ docker-compose build
 $ docker-compose up -d
 ```
+
+Para a configuração da base de dados é necessário rodar os seguintes comandos:
+```bash
+$ docker exec -it <nome_do_container> bash
+$ mysql -u root -p desafio-credere < /backup/scriptBanco.sql
+```
+
 Após a execução dos comandos, o servidor estará disponível em [localhost/](http://localhost/)
 
 ## Utilização

@@ -1,11 +1,8 @@
 <?php
 
-header('Content-Type: application/json; charset=UTF-8');
+require_once 'classes/controller/Sondas.php';
 
-require_once '../config.php';
-require_once 'classes/Sonda.php';
-
-class Rest
+class Api
 {
     public static function open($requisicao)
     {
@@ -25,6 +22,8 @@ class Rest
         }
 
         $parametros = json_decode(file_get_contents('php://input'), true);
+        $classe     = $classe == 'Sonda' ? 'Sondas' : $classe;
+        $metodo     = $metodo == 'posicao' ? 'verificarPosicao' : $metodo;
 
         try {
             if (class_exists($classe)) {
@@ -46,12 +45,4 @@ class Rest
         }
 
     }
-}
-
-
-if (isset($_REQUEST) && !empty($_REQUEST)) {
-    echo Rest::open($_REQUEST);
-} else {
-    http_response_code(400);
-    echo json_encode(array('Erro' => 'URL inválida'));
 }

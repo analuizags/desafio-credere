@@ -18,11 +18,11 @@ services:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: "123456789"
-      MYSQL_DATABASE: desafio-credere
+      MYSQL_DATABASE: teste-credere
     volumes:
-      - desafio-credere:/var/lib/mysql
+      - teste-credere:/var/lib/mysql
       - ./config:/backup/
     networks:
       - default
 volumes:
-  desafio-credere:
+  teste-credere:

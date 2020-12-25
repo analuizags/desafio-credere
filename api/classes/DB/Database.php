@@ -6,8 +6,7 @@ class Database {
 
     public function __construct()
     {
-        // pesquisar como importar esse arquivo
-        $dadosBD = @json_decode(file_get_contents(DIR_APP . DS . 'config-dev.json'));
+        $dadosBD = @json_decode(file_get_contents(DIR_APP . DS . 'config/config-dev.json'));
         $dados   = isset($dadosBD->database) ? $dadosBD->database : null;
 
         if (!is_null($dados)) {
