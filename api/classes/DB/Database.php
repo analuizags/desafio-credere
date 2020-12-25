@@ -17,9 +17,7 @@ class Database {
 
             try {
                 $this->conexao = new PDO(
-                    "mysql:host=$host;dbname=$db",
-                    $usuario,
-                    $senha
+                    "mysql:host=$host;dbname=$db", $usuario, $senha
                 );
             } catch (PDOException $e) {
                 throw new Exception($e->getMessage());

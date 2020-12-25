@@ -23,12 +23,12 @@ DROP TABLE IF EXISTS `sonda`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sonda` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `eixoX` int(11) NOT NULL,
-  `eixoY` int(11) NOT NULL,
-  `direcao` varchar(1) DEFAULT NULL,
+  `id`      int(11)    NOT NULL AUTO_INCREMENT,
+  `eixoX`   int(11)    NOT NULL,
+  `eixoY`   int(11)    NOT NULL,
+  `direcao` varchar(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
