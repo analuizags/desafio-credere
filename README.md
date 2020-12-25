@@ -21,18 +21,13 @@ Esperamos três endpoints, um que envie a sonda para a posição inicial (0,0); 
 ## Instalação/Execução
 
 ### Configurando credenciais
-Primeiramente, é necessário configurar a conexão com o banco de dados MySQL local, para isso crie o arquivo ```config/config-dev.json```, adicionando credenciais válidas.
+Primeiramente, é necessário configurar as variáveis de ambiente para a conexão com o banco de dados MySQL, para isso crie o arquivo ```config/.env```, adicionando credenciais válidas.
 
 ```json
-{
-  "database": {
-    "host": "localhost",
-    "user": "usuario",
-    "password": "senha",
-    "db": "nome_banco",
-    "drive": "mysql"
-  }
-}
+DB_HOST="localhost"
+DB_DATABASE="nome_banco"
+DB_USER="usuario"
+DB_PASS="senha"
 ```
 
 ### Sem Docker
@@ -42,6 +37,10 @@ Para a execução do projeto sem Docker é necessário ter um servidor local na 
 Para a configuração da base de dados é necessário rodar os seguintes comandos:
 ```bash
 $ mysql -u root -p <nome_da_base> < /config/scriptBanco.sql
+```
+Em seguida é necessária a instalação das dependências do arquivo ```composer.json```. Para isso o composer deve estar instalado e configurado na máquina. As dependências podem ser instaladas com o comando: 
+```bash
+$ composer install
 ```
 
 ### Com Docker 🐳
@@ -63,10 +62,10 @@ Após a execução dos comandos, o servidor estará disponível em [localhost/](
 
 HTTP requisição                      | Descrição                            | Exemplo
 ------------------------------------ | ------------------------------------ | ------------------------
-**POST** /sonda                      | Cria uma sonda                       | 
-**GET** /sonda/{id}/verificarPosicao | Exibe a posição atual da sonda       | 
-**PATCH** /sonda/{id}/movimentar     | Move a sonda                         | 
-**PUT** /sonda/{id}/reposicionar     | Retorna a sonda para posição inicial |
+**POST** /sonda/criar                | Cria uma sonda                       | https://teste-credere.herokuapp.com/sonda/criar
+**GET** /sonda/{id}/posicao          | Exibe a posição atual da sonda       | https://teste-credere.herokuapp.com/sonda/1/posicao
+**PATCH** /sonda/{id}/movimentar     | Move a sonda                         | https://teste-credere.herokuapp.com/sonda/1/movimentar
+**PUT** /sonda/{id}/reposicionar     | Retorna a sonda para posição inicial | https://teste-credere.herokuapp.com/sonda/1/reposicionar
 
 ### POST /sonda
 Cria sonda na posição padrão (0,0).
@@ -94,7 +93,7 @@ Move a sonda de acordo com os comandos passados.
 ### Parametros
 Nome           | Tipo        | Descrição         | Exemplo
 -------------- | ----------- | ----------------- | --------------------------------
- **id**        | **Integer** | requerida na URI  | 
+ **id**        | **Inteiro** | requerida na URI  | https://teste-credere.herokuapp.com/sonda/1/posicao
  **movements** | **Array**   | requerido no body | "movements": ["GE", "M", "M", "M", "GD", "M"]
 
 Exemplo de resposta:
@@ -112,7 +111,7 @@ Retorna a sonda para sua posição padrão (0,0).
 
 Nome    | Tipo        | Descrição        | Exemplo
 ------- | ----------- | ---------------- | -------------------------
- **id** | **Integer** | requerida na URI | 
+ **id** | **Inteiro** | requerida na URI | https://teste-credere.herokuapp.com/sonda/1/movimentar
 
 Exemplo de resposta:
 ```json
