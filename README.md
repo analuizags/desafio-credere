@@ -21,7 +21,7 @@ Esperamos três endpoints, um que envie a sonda para a posição inicial (0,0); 
 ## Instalação/Execução
 
 ### Configurando credenciais
-Primeiramente, é necessário configurar as variáveis de ambiente para a conexão com o banco de dados MySQL, para isso crie o arquivo ```config/.env```, adicionando credenciais válidas.
+Primeiramente, é necessário configurar as variáveis de ambiente para a conexão com o banco de dados MySQL, para isso crie o arquivo ```.env```, adicionando credenciais válidas.
 
 ```json
 DB_HOST="localhost"
