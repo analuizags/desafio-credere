@@ -5,8 +5,10 @@ require_once 'config/config.php';
 require_once 'api/Api.php';
 require_once 'vendor/autoload.php';
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+if (file_exists(__DIR__ . '/.env')) {
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
+}
 
 if (isset($_REQUEST) && !empty($_REQUEST)) {
     echo Api::open($_REQUEST);
