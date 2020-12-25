@@ -1,0 +1,13 @@
+{
+    "name": "credere/teste",
+    "description": "Teste credere",
+    "authors": [
+        {
+            "name": "analuizags",
+            "email": "gs.analuiza@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.2"
+    }
+}

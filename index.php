@@ -3,6 +3,10 @@ header('Content-Type: application/json; charset=UTF-8');
 
 require_once 'config/config.php';
 require_once 'api/Api.php';
+require_once 'vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/config');
+$dotenv->load();
 
 if (isset($_REQUEST) && !empty($_REQUEST)) {
     echo Api::open($_REQUEST);
