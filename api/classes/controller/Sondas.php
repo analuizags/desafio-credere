@@ -2,7 +2,6 @@
 
 require_once DIR_PROJETO . DS . 'classes/model/Sonda.php';
 
-
 class Sondas
 {
     public function criar()
@@ -22,7 +21,7 @@ class Sondas
 
     public function reposicionar($id)
     {
-        $this->verificarID($id);
+        $this->validarID($id);
 
         $dados = array(
             'id'      => (int) $id,
@@ -42,7 +41,7 @@ class Sondas
 
     public function movimentar($id, $movimento)
     {
-        $this->verificarID($id);
+        $this->validarID($id);
 
         $cordenada = $this->verificarPosicao($id);
         $resultado = $this->fazerMovimentos($cordenada, $movimento);
@@ -51,7 +50,7 @@ class Sondas
             'id'        => (int) $id,
             'eixoX'     => $resultado['eixoX'],
             'eixoY'     => $resultado['eixoY'],
-            'direcao'   => $resultado['direcao'],
+            'direcao'   => $resultado['direcao']
         );
 
         $sonda    = new Sonda();
@@ -65,7 +64,7 @@ class Sondas
 
     public function verificarPosicao($id)
     {
-        $this->verificarID($id);
+        $this->validarID($id);
 
         $sonda    = new Sonda();
         $resposta = $sonda->listar($id, array('eixoX', 'eixoY', 'direcao'));
@@ -80,58 +79,31 @@ class Sondas
     {
         if (empty($movimento)) throw new Exception('Precisamos de pelo menos um comando para validar seu movimento', 1);
         
-        // cordenadas e direção inicial da sonda
-        $eixoX  = (int) $cordenada['eixoX'];
-        $eixoY  = (int) $cordenada['eixoY'];
-        $direcao = $cordenada['direcao'];
+        $graus   = array('D' => 0, 'C' => 90, 'E' => 180, 'B' => 270);
+        $eixoX   = (int) $cordenada['eixoX'];
+        $eixoY   = (int) $cordenada['eixoY'];
+        $direcao = $graus[$cordenada['direcao']];
         
         foreach ($movimento as $comando) {
-            // otimizar esse calculo
-            if ($comando == 'M') {
-                switch ($direcao) {
-                    case 'D':
-                        $eixoX++;
+            if (trim($comando) == 'M') {
+                switch (abs($direcao%360)) {
+                    case 270:
+                        $eixoY--;
                         break;
-                    case 'E':
+                    case 180:
                         $eixoX--;
                         break;
-                    case 'C':
+                    case 90:
                         $eixoY++;
                         break;
                     default:
-                        $eixoY--;
+                        $eixoX++;
                         break;
                 }
-            } else if ($comando == 'GE') {
-                switch ($direcao) {
-                    case 'D':
-                        $direcao = 'C';
-                        break;
-                    case 'E':
-                        $direcao = 'B';
-                        break;
-                    case 'C':
-                        $direcao = 'E';
-                        break;
-                    default:
-                        $direcao = 'D';
-                        break;
-                }
-            } else if ($comando == 'GD'){
-                switch ($direcao) {
-                    case 'D':
-                        $direcao = 'B';
-                        break;
-                    case 'E':
-                        $direcao = 'C';
-                        break;
-                    case 'C':
-                        $direcao = 'D';
-                        break;
-                    default:
-                        $direcao = 'E';
-                        break;
-                }
+            } else if (trim($comando) == 'GE') {
+                $direcao -= 90;
+            } else if (trim($comando) == 'GD'){
+                $direcao += 90;
             } else {
                 throw new Exception('Comando inválido! Nossa sonda ainda não está preparada para esse comando', 1);
             }
@@ -140,11 +112,12 @@ class Sondas
                 throw new Exception('Movimento inválido! Por favor, não tente levar nossa sonda para onde não podemos visualiza-la', 1);
             }
         }
-
+        
+        $direcao = array_search(abs($direcao%360), $graus); 
         return array('eixoX' => $eixoX, 'eixoY' => $eixoY, 'direcao' => $direcao);
     }
 
-    public function verificarID($id)
+    public function validarID($id)
     {
         if (empty($id) || is_null($id)) throw new Exception("Sonda inválida", 1);
 
@@ -154,7 +127,6 @@ class Sondas
         if (!$resposta) throw new Exception('Sonda inexistente', 1);
 
         return true;
-    }
-    
+    }    
 }
     
