@@ -33,8 +33,6 @@ class Sondas
         $sonda    = new Sonda();
         $resposta = $sonda->atualizar($dados);
 
-        if (!$resposta) throw new Exception('Não foi possível reposicionar sua sonda', 1);
-
         http_response_code(200);
         return array('Sucesso' => 'Sonda enviada para nas cordenadas iniciais (0,0).');        
     }
@@ -85,6 +83,8 @@ class Sondas
         $direcao = $graus[$cordenada['direcao']];
         
         foreach ($movimento as $comando) {
+            if ($direcao == 0 ) $direcao = 360;
+
             if (trim($comando) == 'M') {
                 switch (abs($direcao%360)) {
                     case 270:
@@ -101,9 +101,9 @@ class Sondas
                         break;
                 }
             } else if (trim($comando) == 'GE') {
-                $direcao -= 90;
-            } else if (trim($comando) == 'GD'){
                 $direcao += 90;
+            } else if (trim($comando) == 'GD'){
+                $direcao -= 90;
             } else {
                 throw new Exception('Comando inválido! Nossa sonda ainda não está preparada para esse comando', 1);
             }
